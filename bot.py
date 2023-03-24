@@ -1,5 +1,6 @@
 # import twitter
 import tweepy
+from google_images_search import GoogleImagesSearch
 import requests
 import random
 import os
@@ -11,11 +12,20 @@ CONSUMER_KEY = os.getenv('CONSUMER_KEY')
 CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
 ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
 ACCESS_SECRET = os.getenv('ACCESS_SECRET')
+GOOGLE_API_KEY= os.getenv('GOOGLE_API_KEY')
+GOOGLE_API_CX= os.getenv('GOOGLE_API_CX')
 
 # Authenticate with the Twitter API
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 api = tweepy.API(auth)
+gis = GoogleImagesSearch(GOOGLE_API_KEY, GOOGLE_API_CX)
+
+search_terms = ["el bicho gritando siuuu","cr7 tomando jugo", "El bicho memes 2023"]
+search_term = random.choice(search_terms)
+
+gis.search(search_params={'q': search_term, 'num': 10})
+img_url = gis.results()[random.randint(0, 9)].url
 
 text_tweets = [
     # "La experiencia te hace entender que jugando en equipo y siendo solidario se alcanzan mayores objetivos.",
@@ -41,33 +51,25 @@ text_tweets = [
     "Quieres ser el siii de mi uuuuu?",
     "Si Dios no exiscte por qué el bicho se llama Cristiano Ronaldo y no Ateo Ronaldo?",
 ]
-pic_tweets = [
-    # ['Hoy juega el bicho con Portugal SIIUUUUU!','https://japannews.yomiuri.co.jp/wp-content/uploads/2022/11/2022-11-24T172911Z_309460964_UP1EIBO1CKL9S_RTRMADP_3_SOCCER-WORLDCUP-POR-GHA-REPORT.jpg'],
-    ['Buenos dias bichologos','https://media.tenor.com/1nwjs8in1DUAAAAd/el-bicho-tomando-jugo-cr7.gif'],
-    ['','https://images3.memedroid.com/images/UPLOADED771/63ce6e66ed7b1.jpeg'],
-    ['Imagenes que puedes escuchar','https://static1.personality-database.com/profile_images/33adafc0e1534a9db3e9e2250ca0b054.png'],
-]
-# Choose a random tweet and Post it
-choice = random.choice(['text','pic'])
-if choice == 'text':
-    tweet = random.choice(text_tweets)
-    api.update_status(tweet)
-elif choice =='pic':
-    tweet = random.choice(pic_tweets)
-    # download image
-    filename = 'temp.jpg'
-    request = requests.get(tweet[1], stream=True)
-    if request.status_code == 200:
-        with open(filename, 'wb') as image:
-            for chunk in request:
-                image.write(chunk)
 
-        media = api.media_upload(filename)
-        api.update_status(status=tweet[0], media_ids=[media.media_id])
-        os.remove(filename)
-    else:
-        print("Unable to download image")
+if (search_term == 'cr7 tomando jugo'):
+    tweet = [random.choice(text_tweets), img_url]
 else:
-    tweet = random.choice(text_tweets)
-    api.update_status(tweet)
+    tweet = ["",img_url]
 
+print(tweet[0])
+print(tweet[1])
+
+# download image
+filename = 'temp.jpg'
+request = requests.get(tweet[1], stream=True)
+if request.status_code == 200:
+    with open(filename, 'wb') as image:
+        for chunk in request:
+            image.write(chunk)
+
+    media = api.media_upload(filename)
+    api.update_status(status=tweet[0], media_ids=[media.media_id])
+    os.remove(filename)
+else:
+    print("Unable to download image")
