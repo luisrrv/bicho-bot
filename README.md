@@ -5,5 +5,5 @@
 ### Check it out ➡️ https://twitter.com/bicho_bot
 
 
-### bot.py is run a a cron job with WayScript
+### bot.py is run as a cron job with WayScript
 
