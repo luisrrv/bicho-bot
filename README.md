@@ -1,6 +1,8 @@
 # bicho-bot
-## A twitter bot that posts tweets and replies to mentions.
-## This bot tweets twice a day at 09:00 and 21:00 JST
+## A twitter bot that posts a new tweet twice a day by searching for images and tweeting them with a random quote.
+## The bot also periodically searches for posts and it retweets and likes them. 
+## All content is always related to famous football player Cristiano Ronaldo AKA El Bicho.
+
 
 ### Check it out ➡️ https://twitter.com/bicho_bot
 
