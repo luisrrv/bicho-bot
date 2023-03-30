@@ -1,11 +1,11 @@
 # import twitter
+# import openai
 import tweepy
 from google_images_search import GoogleImagesSearch
 import requests
 import random
 import os
 from dotenv import load_dotenv
-# import openai
 import textwrap
 import time
 import datetime
@@ -33,14 +33,14 @@ hour = datetime.datetime.now().hour +9
 minute = datetime.datetime.now().minute
 # Check time to decide what to do
 
-if (hour==9 or hour==21) and (minute < 1):
+if (hour==9 or hour==12 or hour==21) and (minute < 2):
 
-    search_terms = ["el bicho gritando siuuu","cr7 tomando jugo", "El bicho memes 2023"]
+    search_terms = ["el bicho gritando siuuu","cr7 tomando jugo", "El bicho memes 2023", "cristiano ronaldo mi comandante", "el bicho gif"]
     search_term = random.choice(search_terms)
 
 
 
-    gis.search(search_params={'q': search_term, 'num': 10})
+    gis.search(search_params={'q': search_term, 'num': 20})
     img_url = gis.results()[random.randint(0, 9)].url
 
     text_tweets = [
@@ -95,9 +95,9 @@ else:
     print(minute)
 
     #Search keyword 
-    search = '#cr7 OR #CristianoRonaldo OR CR7 OR Ronaldo #elbicho OR #bichobot OR #cr7goat OR #bichologo'
+    search = 'CR7 OR Ronaldo OR TeamCRonaldo OR TimelineCR7'
     #Maximum limit of tweets to be interacted with
-    maxNumberOfTweets = 10
+    maxNumberOfTweets = 15
 
     #To keep track of tweets published
     count = 0
